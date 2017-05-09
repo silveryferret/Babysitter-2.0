@@ -1,6 +1,6 @@
 from unittest import TestCase
 from src.resources import resourcemanager
-import pygame
+import pygame, time
 
 
 class TestImage(TestCase):
@@ -10,13 +10,16 @@ class TestImage(TestCase):
 
     def setUp(self):
         self.manager = resourcemanager.ResourceManager()
-        self.screen = pygame.display.set_mode((800, 600))
-        self.test_img = pygame.image.load('../resources/images/TestImage.png')
-        self.test_surf = self.test_img.blit(self.screen, (20, 20))
+        pygame.display.set_mode((800, 600))
+        self.test_screen = pygame.Surface((800, 600))
+        self.test_img = pygame.image.load('../resources/images/TestImage.png').convert_alpha()
+        self.test_screen.blit(self.test_img, (20, 20))
 
     def test_image_is_same(self):
         img = self.manager.load_image('../resources/images/TestImage.png')
-        our_surf = img.draw(self.screen, (20, 20))
-        our_buffer = our_surf.get_buffer().raw
-        test_buffer = self.screen.get_buffer().raw
+        img.position((20, 20))
+        screen = pygame.Surface((800, 600))
+        img.draw(screen)
+        our_buffer = screen.get_buffer().raw
+        test_buffer = self.test_screen.get_buffer().raw
         self.assertEqual(test_buffer, our_buffer)
