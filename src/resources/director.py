@@ -1,11 +1,23 @@
+import json
 from src.resources.gameobjects import GameObject
 
 display = (1280, 720)  # TODO: Move this out of Director file and into some sort of config file
 
 
 class Director(GameObject):
-    def __init__(self, resourcemanager):
-        self.manager = resourcemanager
+    def __init__(self, resource_manager):
+        self.manager = resource_manager
+        self.characters = {}
+        self.music = {}
+        self.sfx = {}
+        self.backgrounds = {}
+
+    def load_resources(self, resource_script):
+        resource_script = open(resource_script, "r")
+        resources = json.load(resource_script)
+        self.characters = resources["Characters"]
+        self.music = resources["Music"]
+        self.backgrounds = resources["Backgrounds"]
 
     def direct_script(self, string):
         # 'Test (Image) = 1'

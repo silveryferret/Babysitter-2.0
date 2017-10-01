@@ -1,5 +1,5 @@
 from pathlib import Path
-from src.resources import images, sounds
+from src.resources import images, sounds, buttons
 import pygame
 
 
@@ -20,6 +20,9 @@ class ResourceManager(object):
                 raise NoFilePath
             else:
                 raise
+
+    def load_button(self, text):
+        pass
 
     def load_sound(self, path):
         try:
